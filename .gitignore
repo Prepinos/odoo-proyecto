@@ -2,3 +2,5 @@
 odoo-server/
 *.pyc
 __pycache__/
+addons_extra/web_oca/
+addons_extra/web_*

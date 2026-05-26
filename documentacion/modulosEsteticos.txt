@@ -1,0 +1,30 @@
+==================================================================
+RESUMEN DE COMANDOS PARA INSTALAR MÓDULOS BÁSICOS EN ODOO
+==================================================================
+
+Paso 1: Descargar los módulos de la interfaz (OCA) dentro de addons_extra
+------------------------------------------------------------------
+cd ~/odoo-proyecto
+git clone --depth 1 -b 18.0 https://github.com/OCA/web.git addons_extra/web_oca
+
+Paso 2: Subir los módulos un nivel (quedar a 1 nivel de profundidad)
+------------------------------------------------------------------
+mv ~/odoo-proyecto/addons_extra/web_oca/web_* ~/odoo-proyecto/addons_extra/
+rm -rf ~/odoo-proyecto/addons_extra/web_oca/
+
+Paso 3: Ignorar los módulos externos en Git
+------------------------------------------------------------------
+echo "addons_extra/web_*" >> ~/odoo-proyecto/.gitignore
+
+Paso 4: Reiniciar el servidor Odoo
+------------------------------------------------------------------
+(En la terminal de Odoo: CTRL + C)
+odoo run
+
+Paso 5: Activación en la interfaz Web (Navegador)
+------------------------------------------------------------------
+1. Ir a Ajustes -> Activar modo desarrollador.
+2. Ir a Apps (Aplicaciones).
+3. Hacer clic arriba en "Actualizar lista de aplicaciones" y dar a Actualizar.
+4. Quitar el filtro predeterminado "Aplicaciones" pulsando en la 'x'.
+5. Buscar 'web_responsive' e instalar.
