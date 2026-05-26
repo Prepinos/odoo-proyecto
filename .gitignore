@@ -1,0 +1,4 @@
+.venv/
+odoo-server/
+*.pyc
+__pycache__/
