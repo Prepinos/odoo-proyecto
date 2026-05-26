@@ -1,0 +1,51 @@
+======================================================================
+                 MI ENTORNO ODOO 18 COMMUNITY
+======================================================================
+
+--- 1. MIS CREDENCIALES LOCALES ---
+Master Password: vyp8-6kbh-jaqr
+Database Name: pruebas-modulos
+
+Usuario Administrador (ERP):
+- Email: erictaboadaeric@gmail.com
+- Password: [Tu contraseña de 4 letras]
+
+Conexión PostgreSQL (Base de datos):
+- Usuario: odoo
+- Password: odoo
+- Puerto: 5432
+
+----------------------------------------------------------------------
+
+--- 2. ¿QUÉ HICIMOS AQUÍ? (RESUMEN INTUITIVO) ---
+
+1. LIMPIEZA DE FANTASMAS:
+   Borramos las carpetas y el entorno virtual viejo que estaban corruptos.
+   Dejamos intacto PostgreSQL porque corre de fondo en Ubuntu.
+
+2. ENTORNO AISLADO Y LIMPIO:
+   Creamos una carpeta nueva (`odoo-proyecto`) y un entorno virtual limpio 
+   (`.venv`) para instalar solo las dependencias exactas de Odoo 18.
+
+3. DESCARGA DEL MOTOR:
+   Clonamos el código nativo de Odoo 18 Community dentro de la carpeta 
+   `odoo-server`. Le añadimos una carpeta vacía llamada `addons_extra` 
+   que es donde programaremos nuestros propios módulos.
+
+4. EL ARCHIVO DE CONFIGURACIÓN (`odoo.conf`):
+   Creamos la "llave" que le dice a Odoo cómo arrancar, qué carpetas de 
+   addons debe leer y con qué usuario de Postgres debe conectar.
+
+5. EL ERROR DE CONTRASEÑA (Y CÓMO SE ARREGLÓ):
+   Al arrancar, Odoo dio un error FATAL de autenticación. Pasó porque el 
+   usuario "odoo" ya existía de tu instalación antigua y su contraseña 
+   no coincidía con el nuevo `odoo.conf`.
+   Entramos directos a Postgres como administradores y forzamos el cambio:
+   "ALTER USER odoo WITH PASSWORD 'odoo';". Con eso, la llave volvió a encajar.
+
+6. COPIA DE SEGURIDAD EN GITHUB:
+   Configuramos un `.gitignore` inteligente para NO subir los gigas de 
+   código nativo de Odoo, sino solo tu configuración, tus credenciales 
+   y tus futuros módulos. Vinculamos el repositorio y subimos todo a `main`.
+
+======================================================================
