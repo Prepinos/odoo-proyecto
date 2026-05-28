@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_portal_attendance" model="res.groups">
+        <field name="name">Permitir Fichaje en Portal</field>
+        <field name="category_id" ref="base.module_category_human_resources_attendances"/>
+    </record>
+</odoo>
+
+

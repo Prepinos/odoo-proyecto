@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_header_attendance_sync" inherit_id="portal.portal_layout">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <t t-set="user" t-value="request.env.user"/>
+            <t t-set="emp" t-value="user.employee_id"/>
+            
+            <div t-if="emp" class="container mt-3">
+                <div class="alert alert-info d-flex align-items-center justify-content-between shadow-sm" style="border-radius: 10px; border-left: 5px solid #00A09D;">
+                    <div>
+                        <i class="fa fa-clock-o me-2"/>
+                        <strong>Asistencia: </strong>
+                        <t t-if="emp.attendance_state == 'checked_in'">
+                            <span class="badge rounded-pill bg-success">DENTRO</span>
+                            <span class="ms-2 small text-muted">Desde: <strong t-esc="emp.last_attendance_id.check_in" t-options='{"widget": "datetime", "format": "HH:mm"}'/></span>
+                        </t>
+                        <t t-else="">
+                            <span class="badge rounded-pill bg-danger">FUERA</span>
+                        </t>
+                    </div>
+
+                    <form action="/portal/attendance/toggle" method="post" class="m-0">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <button type="submit" t-attf-class="btn btn-sm fw-bold #{'btn-warning' if emp.attendance_state == 'checked_in' else 'btn-success text-white'}">
+                            <t t-if="emp.attendance_state == 'checked_in'">REGISTRAR SALIDA</t>
+                            <t t-else="">REGISTRAR ENTRADA</t>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div t-if="not emp" class="container mt-3">
+                <div class="alert alert-warning small">
+                    <i class="fa fa-exclamation-triangle me-1"/> 
+                    Aviso técnico: Tu usuario de portal no tiene un <strong>Empleado</strong> vinculado. El botón no se mostrará.
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

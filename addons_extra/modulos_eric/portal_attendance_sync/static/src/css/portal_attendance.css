@@ -1,0 +1,24 @@
+.portal-attendance-dropdown {
+    min-width: 260px;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+    margin-top: 10px;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid white;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+}
+
+.attendance-btn-text {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+
+
