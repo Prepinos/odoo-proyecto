@@ -1,72 +1,36 @@
+======================================================================
+     FUNCIONAMIENTO DEL COMANDO PERSONALIZADO: odoo [run|stop]
+======================================================================
 
-cat << 'EOF' > accesoDirecto.txt
-===================================================================
-📌 ACCESOS DIRECTOS PARA ODOO 18 (Resumen y Código)
-===================================================================
+[ ODOO RUN ] - El Interruptor de Encendido Inteligente
+----------------------------------------------------------------------
+1. Comprobación de seguridad:
+   - Si el puerto 8069 ya está ocupado por Odoo: Te avisa de que ya
+     está corriendo de fondo y no hace nada.
+   - Si el puerto 8069 está ocupado por OTRA aplicación: Te da error
+     para advertirte del conflicto.
 
-En esta sesión hemos configurado un comando inteligente y simplificado
-en el archivo del sistema (~/.bashrc) para gestionar el servidor de 
-Odoo de forma limpia, automática y aislada en una subshell.
+2. Arranque aislado (Subshell):
+   - Si el puerto está libre, abre una "burbuja" interna en la terminal.
+   - Viaja a la carpeta: ~/odoo-proyecto
+   - Activa el entorno: .venv
+   - Lanza Odoo con el comando extra: --dev=all (modo desarrollador).
 
--------------------------------------------------------------------
-🚀 CÓMO USAR LOS COMANDOS EN TU DÍA A DÍA
--------------------------------------------------------------------
+3. Cierre limpio (Ctrl + C):
+   - Un "atrapador" (trap) captura la interrupción por teclado.
+   - Apaga Odoo y te asegura el mensaje en pantalla: 
+     "🧹 Entorno cerrado y puerto libre."
 
-* odoo run
-  Arranca el servidor en el puerto 8069. Hace un diagnóstico previo 
-  del puerto para evitar conflictos, activa el entorno virtual (.venv) 
-  de forma aislada y enciende Odoo.
 
-* CTRL + C (Dentro de la terminal donde corre Odoo)
-  Apaga el servidor por completo, fuerza la liberación del puerto 
-  8069 y desactiva de forma automática y visual el (.venv), dejando 
-  la terminal limpia.
+[ ODOO STOP ] - El Botón de Apagado y Limpieza Total
+----------------------------------------------------------------------
+1. Cierra el proceso:
+   - Busca cualquier servidor de Odoo (odoo-bin) que se haya quedado
+     corriendo de fondo en Linux y lo cierra a la fuerza (pkill).
 
-* odoo stop
-  Botón de emergencia para usar desde otra pestaña si el servidor 
-  se queda colgado de fondo o si cerraste VS Code a las bravas.
+2. Limpieza de terminal:
+   - Revisa si el entorno (.venv) se quedó activado a mano.
+   - Si es así, ejecuta un 'deactivate' automático para quitar el
+     texto "(.venv)" de tu línea de comandos.
 
--------------------------------------------------------------------
-💻 CÓDIGO LISTO PARA COPIAR Y PEGAR EN EL UNIX (~/.bashrc)
--------------------------------------------------------------------
-Si necesitas volver a instalar estos comandos en otra máquina, abre 
-el archivo con 'code ~/.bashrc', ve al final y pega este bloque:
-
-odoo() {
-    case "$1" in
-        run)
-            if lsof -t -i:8069 >/dev/null 2>&1; then
-                if pgrep -f odoo-bin >/dev/null 2>&1; then
-                    echo "ℹ️  Odoo ya está corriendo de fondo (puedes apagarlo con 'odoo stop')."
-                else
-                    echo "❌ Error: otra aplicación ajena interfiere la conexión en el puerto 8069."
-                fi
-                return 1
-            fi
-            echo "🚀 Encendiendo Odoo 18 en odoo-proyecto..."
-            (
-                cd ~/odoo-proyecto && \
-                source .venv/bin/activate && \
-                python3 odoo-server/odoo-bin -c odoo.conf --dev=all
-            )
-            echo "🧹 Entorno cerrado y puerto libre."
-            ;;
-        stop)
-            echo "🛑 Apagando Odoo..."
-            pkill -f odoo-bin
-            ;;
-        *)
-            echo "Uso: odoo [run|stop]"
-            ;;
-    esac
-}
-
--------------------------------------------------------------------
-🛠️ OTROS COMANDOS ÚTILES DE LA SESIÓN DE HOY
--------------------------------------------------------------------
-* code ~/.bashrc      -> Abre el archivo de configuración de tu terminal.
-* source ~/.bashrc    -> Recarga la terminal para aplicar los cambios.
-* mkdir documentacion -> Crea la carpeta de documentación.
-* mv [archivo] [dir]  -> Mueve un archivo dentro de una carpeta.
-===================================================================
-EOF
+======================================================================
